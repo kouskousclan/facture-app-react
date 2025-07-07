@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import FormFacture from './components/FormFacture/FormFacture';
-import FacturePreview from './components/FacturePreview/FacturePreview';
+import WashmePreview from './components/WashmePreview/WashmePreview';
+// On importe notre nouveau composant
+import PhotomatonPreview from './components/PhotomatonPreview/PhotomatonPreview';
 
 function App() {
   const [factureData, setFactureData] = useState(null);
@@ -11,9 +13,21 @@ function App() {
     setFactureData(data);
   };
 
-  // NOUVELLE FONCTION : pour retourner au formulaire
   const handleReset = () => {
-    setFactureData(null); // On remet les données à 'null', ce qui réaffiche le formulaire
+    setFactureData(null);
+  };
+
+  const renderPreview = () => {
+    if (!factureData) return null;
+
+    if (factureData.brand === 'WashME') {
+      return <WashmePreview formData={factureData} onReset={handleReset} />;
+    }
+
+    if (factureData.brand === 'Photomaton') {
+      // On affiche le bon composant ici
+      return <PhotomatonPreview formData={factureData} onReset={handleReset} />;
+    }
   };
 
   return (
@@ -21,8 +35,7 @@ function App() {
       {!factureData ? (
         <FormFacture onFormSubmit={handleFormSubmit} />
       ) : (
-        // On passe la nouvelle fonction 'handleReset' au composant d'aperçu
-        <FacturePreview formData={factureData} onReset={handleReset} />
+        renderPreview()
       )}
     </main>
   );

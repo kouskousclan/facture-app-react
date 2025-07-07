@@ -1,0 +1,92 @@
+/* Fichier : src/components/WashmePreview/WashmePreview.module.css */
+.previewContainer {
+    font-family: system-ui, sans-serif;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+.header {
+    text-align: center;
+    border-bottom: 2px solid #1e3a8a;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.header h2 {
+    font-size: 2rem;
+    color: #1e3a8a;
+    margin: 0;
+}
+
+.details p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.details strong {
+    color: #374151;
+}
+
+.appareilsSection {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+}
+
+.appareilsSection h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #d1d5db;
+    padding-bottom: 0.5rem;
+}
+
+.appareilItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #374151;
+    text-align: center;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+/* NOUVEAU : Styles pour la section des prix */
+.prixSection {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .prixTable {
+    width: 280px;
+  }
+  
+  .prixTable td {
+    padding: 0.4rem;
+  }
+  
+  .prixTable .label {
+    color: #4b5563;
+  }
+  
+  .prixTable .value {
+    font-weight: 600;
+    text-align: right;
+  }
+  
+  .totalRow td {
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-top: 2px solid #374151;
+    padding-top: 0.8rem;
+  }
