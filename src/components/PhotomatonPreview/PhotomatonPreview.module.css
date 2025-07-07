@@ -1,92 +1,186 @@
-/* Fichier : src/components/WashmePreview/WashmePreview.module.css */
+/* Fichier : src/components/PhotomatonPreview/PhotomatonPreview.module.css */
+
 .previewContainer {
-    font-family: system-ui, sans-serif;
+    --brand-orange: #E27F45;
+    --header-bg: #fff8ed;
+    --text-dark: #2d3748;
+    --text-light: #718096;
+    --border-color: #e2e8f0;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--text-dark);
+    background-color: var(--card-bg);
     max-width: 800px;
-    margin: 2rem auto;
-    padding: 2.5rem;
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+    margin: 0.5rem auto;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
 }
 
+/* --- Section 1: En-tête --- */
 .header {
-    text-align: center;
-    border-bottom: 2px solid #1e3a8a;
-    padding-bottom: 1rem;
-    margin-bottom: 2rem;
+    background-color: var(--header-bg);
+    padding: 1.5rem 2.5rem;
+}
+.logoHeader {
+    height: 50px;
 }
 
-.header h2 {
-    font-size: 2rem;
-    color: #1e3a8a;
-    margin: 0;
-}
-
-.details p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-}
-
-.details strong {
-    color: #374151;
-}
-
-.appareilsSection {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-}
-
-.appareilsSection h3 {
-    margin-top: 0;
-    border-bottom: 1px solid #d1d5db;
-    padding-bottom: 0.5rem;
-}
-
-.appareilItem {
+/* --- Section 2: Contact --- */
+.contactSection {
+    background-color: #fff;
+    padding: 1.5rem 2.5rem;
     display: flex;
     justify-content: space-between;
-    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+.contactBlock {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.contactText {
+    display: flex;
+    flex-direction: column;
+}
+.contactText strong {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+.contactText span {
+    color: var(--text-light);
+}
+.icon {
+    color: var(--text-light);
 }
 
+/* --- Section 3: Client --- */
+.customerSection {
+    background-color: #fff;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.customerName {
+    font-size: 1.1rem;
+    font-weight: 600; /* semi-gras */
+}
+.locationDate {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* --- Section 4: Titre --- */
+.titleBar {
+    background-color: var(--brand-orange);
+    color: white;
+    text-align: center;
+    padding: 0.8rem;
+}
+.titleBar h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* --- Corps principal --- */
+.body {
+    padding: 2.5rem;
+}
+
+/* --- Section 5: Transaction --- */
+.transactionDetails {
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+}
+.transactionDetails p {
+    margin: 0 0 0.5rem 0;
+}
+.transactionDetails strong {
+    color: var(--text-light);
+    font-weight: 500;
+    display: inline-block;
+    width: 180px;
+}
+
+/* --- Section 6: Appareils --- */
+.sectionTitle {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.sectionTitle h3 {
+    margin: 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--text-light);
+    letter-spacing: 1px;
+}
+.devicesGrid {
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.deviceItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .checkbox {
     width: 20px;
     height: 20px;
-    border: 2px solid #374151;
-    text-align: center;
+    border: 2px solid #a0aec0;
+    border-radius: 4px;
+    color: var(--brand-orange);
+    font-size: 1.2rem;
     font-weight: bold;
-    color: #1e3a8a;
-}
-/* NOUVEAU : Styles pour la section des prix */
-.prixSection {
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e5e7eb;
     display: flex;
-    justify-content: flex-end;
-  }
-  
-  .prixTable {
-    width: 280px;
-  }
-  
-  .prixTable td {
-    padding: 0.4rem;
-  }
-  
-  .prixTable .label {
-    color: #4b5563;
-  }
-  
-  .prixTable .value {
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Section 7: Prix --- */
+.pricingSection {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color); /* Ligne de séparation */
+    display: flex;
+    justify-content: flex-end; /* Alignement à droite */
+}
+.priceTable {
+    width: 300px;
+}
+.priceTable td {
+    padding: 0.5rem 0;
+}
+.priceTable .label {
+    color: var(--text-light);
+}
+.priceTable .value {
     font-weight: 600;
     text-align: right;
-  }
-  
-  .totalRow td {
-    font-weight: 700;
+}
+.totalRow td {
+    padding-top: 1rem;
     font-size: 1.2rem;
-    border-top: 2px solid #374151;
-    padding-top: 0.8rem;
-  }
+    font-weight: 700;
+    border-top: 2px solid var(--text-dark);
+}
+
+/* --- Section 8: Footer --- */
+.footer {
+    background-color: var(--header-bg);
+    padding: 2rem 2.5rem;
+    text-align: left; /* Logo à gauche */
+}
+.footer img {
+    height: 30px;
+    opacity: 0.7;
+}
