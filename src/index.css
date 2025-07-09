@@ -1,7 +1,43 @@
 /* Fichier : src/index.css */
 
+/* Déclaration des nouvelles polices. 
+  NOTE : Les chemins sont relatifs au dossier 'public' ou doivent être gérés 
+  par votre bundler (comme Vite ou Webpack). Placer les polices dans 
+  'src/assets/fonts' est une bonne pratique.
+*/
+@font-face {
+  font-family: 'Fieldwork Hum Bold';
+  src: url('./assets/fonts/Fieldwork17HumBold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fieldwork Hum DemiBold';
+  src: url('./assets/fonts/Fieldwork14HumDemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fieldwork Italic Thin';
+  src: url('./assets/fonts/Fieldwork6ItalicThin.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+/* Application de la police de base au corps du document.
+  J'ai choisi 'Fieldwork Hum DemiBold' comme base pour une meilleure lisibilité, 
+  mais cela peut être ajusté.
+*/
 body {
-    /* On utilise une police moderne et propre disponible sur tous les systèmes */
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f4f5f7; /* Un fond gris très clair pour l'application */
-  }
+  font-family: 'Fieldwork Hum DemiBold', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f4f5f7; /* Un fond gris très clair pour l'application */
+}
+
+/* Styles pour les messages d'erreur de validation */
+.error-message {
+  color: #ef4444; /* Rouge pour les erreurs */
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

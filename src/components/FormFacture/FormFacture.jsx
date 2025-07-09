@@ -1,40 +1,33 @@
-// Fichier : src/components/FormFacture/FormFacture.jsx (Version dynamique)
+// Fichier : src/components/FormFacture/FormFacture.jsx
 
 import { useState } from 'react';
 import styles from './FormFacture.module.css';
 
-// On définit nos deux listes d'appareils distinctes
-const WASHME_SERVICES = [
-  "Lave-linge 20Kg",
-  "Lave-linge 12Kg",
-  "Lave-linge 9 Kg",
-  "Sèche-linge",
-  "Portique de lavage",
-  "Dog Wash"
-];
-
-const PHOTOMATON_SERVICES = [
-  "Cabine photo d'identité",
-  "Borne numérique",
-  "Photocopieur"
-];
+const WASHME_SERVICES = ["Lave-linge 20Kg", "Lave-linge 12Kg", "Lave-linge 9 Kg", "Sèche-linge", "Portique de lavage", "Dog Wash"];
+const PHOTOMATON_SERVICES = ["Cabine photo d'identité", "Borne numérique", "Photocopieur"];
 
 function FormFacture({ onFormSubmit }) {
-  // On ajoute le 'brand' (marque) à notre état, avec 'WashME' par défaut
   const [formData, setFormData] = useState({
-    brand: 'WashME', // NOUVEAU
+    brand: 'WashME',
     nomClient: '',
     dateTransaction: '',
     paiement: 'Carte bancaire',
     appareils: [],
     prixTTC: ''
   });
+  
+  // Nouvel état pour gérer les erreurs de validation
+  const [errors, setErrors] = useState({});
 
-  // La liste des services à afficher dépend de la marque sélectionnée
   const servicesActuels = formData.brand === 'WashME' ? WASHME_SERVICES : PHOTOMATON_SERVICES;
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    // Effacer l'erreur pour le champ en cours de modification
+    if (errors[name]) {
+      setErrors(prevErrors => ({ ...prevErrors, [name]: null }));
+    }
 
     if (type === 'checkbox') {
       setFormData(prevData => ({
@@ -43,13 +36,16 @@ function FormFacture({ onFormSubmit }) {
           ? [...prevData.appareils, value]
           : prevData.appareils.filter(appareil => appareil !== value)
       }));
+       // Effacer l'erreur des appareils si une case est cochée
+       if (checked && errors.appareils) {
+        setErrors(prevErrors => ({ ...prevErrors, appareils: null }));
+      }
     } else {
-      // Si on change de marque (brand), on vide la liste des appareils sélectionnés
       if (name === 'brand') {
         setFormData(prevData => ({
           ...prevData,
           brand: value,
-          appareils: [] // On réinitialise les appareils cochés
+          appareils: [] 
         }));
       } else {
         setFormData(prevData => ({
@@ -59,17 +55,43 @@ function FormFacture({ onFormSubmit }) {
       }
     }
   };
+
+  // Fonction de validation
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.nomClient.trim()) {
+      newErrors.nomClient = "Le nom du client est requis.";
+    }
+    if (!formData.dateTransaction) {
+      newErrors.dateTransaction = "La date de transaction est requise.";
+    }
+    if (formData.appareils.length === 0) {
+      newErrors.appareils = "Veuillez sélectionner au moins un appareil.";
+    }
+    if (!formData.prixTTC) {
+      newErrors.prixTTC = "Le prix T.T.C. est requis.";
+    } else if (parseFloat(formData.prixTTC) <= 0) {
+      newErrors.prixTTC = "Le prix doit être un nombre positif.";
+    }
+
+    return newErrors;
+  };
   
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return; // Bloque la soumission
+    }
     onFormSubmit(formData);
   };
 
   return (
-    <form className={styles.formContainer} onSubmit={handleSubmit}>
+    <form className={styles.formContainer} onSubmit={handleSubmit} noValidate>
       <h1 className={styles.title}>Créer une Preuve d'Achat</h1>
 
-      {/* NOUVEAU : Le choix de la marque */}
       <div className={styles.formGroup}>
         <label>La preuve d'achat est pour :</label>
         <div style={{ display: 'flex', gap: '2rem' }}>
@@ -86,15 +108,16 @@ function FormFacture({ onFormSubmit }) {
 
       <div className={styles.formGroup}>
         <label htmlFor="nomClient">Nom du client</label>
-        <input type="text" id="nomClient" name="nomClient" className={styles.input} onChange={handleChange} value={formData.nomClient} required />
+        <input type="text" id="nomClient" name="nomClient" className={styles.input} onChange={handleChange} value={formData.nomClient} />
+        {errors.nomClient && <p className="error-message">{errors.nomClient}</p>}
       </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="dateTransaction">Date de la transaction</label>
-        <input type="date" id="dateTransaction" name="dateTransaction" className={styles.input} onChange={handleChange} value={formData.dateTransaction} required />
+        <input type="date" id="dateTransaction" name="dateTransaction" className={styles.input} onChange={handleChange} value={formData.dateTransaction} />
+        {errors.dateTransaction && <p className="error-message">{errors.dateTransaction}</p>}
       </div>
       
-      {/* ... les autres champs restent les mêmes ... */}
       <div className={styles.formGroup}>
         <label htmlFor="paiement">Mode de paiement</label>
         <select id="paiement" name="paiement" className={styles.select} onChange={handleChange} value={formData.paiement}>
@@ -103,7 +126,6 @@ function FormFacture({ onFormSubmit }) {
         </select>
       </div>
 
-      {/* MODIFIÉ : La liste des appareils est maintenant dynamique */}
       <div className={styles.formGroup}>
         <label>Appareils utilisés :</label>
         {servicesActuels.map(service => (
@@ -114,11 +136,13 @@ function FormFacture({ onFormSubmit }) {
             </label>
           </div>
         ))}
+        {errors.appareils && <p className="error-message">{errors.appareils}</p>}
       </div>
 
       <div className={styles.formGroup}>
         <label htmlFor="prixTTC">Prix T.T.C (€)</label>
-        <input type="number" id="prixTTC" name="prixTTC" step="0.01" className={styles.input} onChange={handleChange} value={formData.prixTTC} required />
+        <input type="number" id="prixTTC" name="prixTTC" step="0.01" className={styles.input} onChange={handleChange} value={formData.prixTTC} />
+        {errors.prixTTC && <p className="error-message">{errors.prixTTC}</p>}
       </div>
 
       <button type="submit" className={styles.submitButton}>Générer la Preuve d'Achat</button>

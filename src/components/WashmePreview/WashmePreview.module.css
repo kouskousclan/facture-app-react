@@ -1,6 +1,5 @@
-/* Fichier : src/components/WashmePreview/WashmePreview.module.css */
+/* Fichier : src/components/WashmePreview/WashmePreview.module.css (Version Finale avec Polices) */
 
-/* NOUVELLE PALETTE DE COULEURS POUR WASHME */
 .previewContainer {
   --brand-color: #74c4dd; /* Bleu clair WashME */
   --header-bg: #2e2e2e; /* Gris foncé/Bleu nuit WashME */
@@ -9,11 +8,15 @@
   --border-color: #e2e8f0;
   --card-bg: #ffffff;
   --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Police "Thin" appliquée par défaut à toute la facture */
+  font-family: 'Fieldwork', sans-serif;
+  font-weight: 300; 
+
   color: var(--text-dark);
   background-color: var(--card-bg);
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0.5rem auto;
   box-shadow: var(--card-shadow);
   border: 1px solid var(--border-color);
 }
@@ -25,6 +28,7 @@
 }
 .logoHeader {
   height: 50px;
+  /* Plus besoin de filtre, car le logo est déjà blanc */
 }
 
 /* --- Section 2: Contact --- */
@@ -36,25 +40,15 @@
   border-bottom: 1px solid var(--border-color);
   font-size: 0.9rem;
 }
-.contactBlock {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.contactText {
-  display: flex;
-  flex-direction: column;
-}
+.contactBlock { display: flex; align-items: center; gap: 0.75rem; }
+.contactText { display: flex; flex-direction: column; }
+/* Application de la graisse "DemiBold" */
 .contactText strong {
   font-weight: 600;
   color: var(--text-dark);
 }
-.contactText span {
-  color: var(--text-light);
-}
-.icon {
-  color: var(--text-light);
-}
+.contactText span { color: var(--text-light); }
+.icon { color: var(--text-light); }
 
 /* --- Section 3: Client --- */
 .customerSection {
@@ -64,22 +58,21 @@
   justify-content: space-between;
   align-items: center;
 }
+/* Application de la graisse "DemiBold" */
 .customerName {
   font-size: 1.1rem;
   font-weight: 600;
 }
-.locationDate {
-  font-size: 0.9rem;
-  color: var(--text-light);
-}
+.locationDate { font-size: 0.9rem; color: var(--text-light); }
 
 /* --- Section 4: Titre --- */
 .titleBar {
-  background: linear-gradient(45deg, #74c4dd, #50a8c2); /* Dégradé avec la couleur WashME */
+  background: linear-gradient(45deg, #74c4dd, #50a8c2);
   color: white;
   text-align: center;
   padding: 0.8rem;
 }
+/* Application de la graisse "Bold" */
 .titleBar h2 {
   margin: 0;
   font-size: 1.4rem;
@@ -88,7 +81,7 @@
   letter-spacing: 2px;
 }
 
-/* --- Le reste du style est identique à celui de Photomaton pour la cohérence --- */
+/* --- Le reste du style --- */
 .body { padding: 2.5rem; }
 .transactionDetails { margin-bottom: 2.5rem; font-size: 1rem; }
 .transactionDetails p { margin: 0 0 0.5rem 0; }
@@ -98,12 +91,21 @@
 .devicesSection { margin-top: 2.5rem; }
 .devicesGrid { padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .deviceItem { display: flex; justify-content: space-between; align-items: center; }
-.checkbox { width: 20px; height: 20px; border: 2px solid #a0aec0; border-radius: 4px; color: var(--brand-color); font-size: 1.2rem; font-weight: bold; display: flex; align-items: center; justify-content: center;}
+.checkbox { width: 20px; height: 20px; border: 2px solid #a0aec0; border-radius: 4px; color: var(--brand-color); font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; justify-content: center;}
+
+/* Application de la graisse "DemiBold" aux prix */
 .pricingSection { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; }
-.priceTable { width: 300px; }
+.priceTable { width: 300px; font-weight: 600; }
 .priceTable td { padding: 0.5rem 0; }
-.priceTable .label { color: var(--text-light); }
-.priceTable .value { font-weight: 600; text-align: right; }
+/* Le label des prix reste en "Thin" */
+.priceTable .label { font-weight: 300; color: var(--text-light); }
+.priceTable .value { text-align: right; }
+/* Le total reste en "Bold" */
 .totalRow td { padding-top: 1rem; font-size: 1.2rem; font-weight: 700; border-top: 2px solid var(--text-dark); }
+
 .footer { background-color: whitesmoke; padding: 2rem 2.5rem; text-align: left; }
-.footer img { height: 30px; opacity: 0.7; }
+.footer img {
+    height: 30px;
+    opacity: 0.7;
+    /* Plus besoin de filtre car le fond est clair */
+}
