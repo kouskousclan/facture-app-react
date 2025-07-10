@@ -11,10 +11,10 @@ const PhoneIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className={styles.icon}><path d="M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.609-8.994l2.083-1.028-3.493-6.817-2.08 1.026c-8.488 4.199 2.164 24.609 10.64 20.542l3.044-1.503z"/></svg>
 );
 
-// --- Liste des services WashME ---
 const WASHME_SERVICES = ["Lave-linge 20Kg", "Lave-linge 12Kg", "Lave-linge 9 Kg", "Sèche-linge", "Portique de lavage", "Dog Wash"];
 
-function WashmePreview({ formData, onReset }) {
+// Le composant accepte maintenant les props pour les logos
+function WashmePreview({ formData, onReset, headerLogo, footerLogo }) {
   const prixTTC = parseFloat(formData.prixTTC || 0);
   const prixHT = prixTTC / 1.2;
   const tva = prixTTC - prixHT;
@@ -23,11 +23,23 @@ function WashmePreview({ formData, onReset }) {
   const handleExportPDF = () => {
     const element = document.getElementById('facture-washme');
     const nomFichier = `WashME_${formData.nomClient.replace(/ /g, '_')}_${formData.dateTransaction}.pdf`;
-    const elementWidth = element.offsetWidth;
-    const elementHeight = element.offsetHeight;
-    const pdfWidth = elementWidth / 96 + 0.2;
-    const pdfHeight = elementHeight / 96 + 0.2;
-    const opt = { margin: 0, filename: nomFichier, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: [pdfWidth, pdfHeight], orientation: 'portrait' }};
+    
+    // Options PDF améliorées pour une meilleure qualité
+    const opt = {
+      margin:       0,
+      filename:     nomFichier,
+      image:        { type: 'jpeg', quality: 1.0 }, // Qualité maximale
+      html2canvas:  { 
+        scale: 4, // Échelle augmentée pour une meilleure résolution
+        dpi: 300, // Haute résolution
+        letterRendering: true,
+        useCORS: true // Nécessaire si les images viennent d'un autre domaine
+      },
+      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    // La méthode de calcul de la taille est remplacée par un format standard (A4) 
+    // pour une meilleure compatibilité, en combinaison avec l'échelle.
     html2pdf().from(element).set(opt).save();
   };
 
@@ -39,14 +51,13 @@ function WashmePreview({ formData, onReset }) {
       </div>
 
       <div id="facture-washme" className={styles.previewContainer}>
-        {/* === Section 1 : En-tête avec logo WashME === */}
         <header className={styles.header}>
-          <img src="/1111.png" alt="WashME Logo" className={styles.logoHeader} />
+          {/* Logo dynamique via les props */}
+          <img src={headerLogo} alt="WashME Logo" className={styles.logoHeader} />
         </header>
 
-        {/* === Section 2 : Informations de contact === */}
         <section className={styles.contactSection}>
-          <div className={styles.contactBlock}>
+           <div className={styles.contactBlock}>
             <LocationIcon />
             <div className={styles.contactText}>
               <strong>ME Group France</strong>
@@ -57,31 +68,27 @@ function WashmePreview({ formData, onReset }) {
           <div className={styles.contactBlock}>
             <PhoneIcon />
             <div className={styles.contactText}>
-              <strong>Service Client WashME</strong>
+              <strong>Service Client Wash.ME</strong>
               <span>09.70.82.32.47</span>
             </div>
           </div>
         </section>
 
-        {/* === Section 3 : Détails client et lieu/date === */}
         <section className={styles.customerSection}>
           <div className={styles.customerName}>{formData.nomClient}</div>
           <div className={styles.locationDate}>Fait à Paris le : {today}</div>
         </section>
 
-        {/* === Section 4 : Titre === */}
         <div className={styles.titleBar}>
           <h2>Preuve d'achat</h2>
         </div>
         
         <main className={styles.body}>
-          {/* === Section 5 : Informations de transaction === */}
           <section className={styles.transactionDetails}>
             <p><strong>Date de la transaction :</strong> {new Date(formData.dateTransaction).toLocaleDateString('fr-FR')}</p>
             <p><strong>Mode de paiement :</strong> {formData.paiement}</p>
           </section>
 
-          {/* === Section 6 : Appareil utilisé (liste WashME) === */}
           <section className={styles.devicesSection}>
             <div className={styles.sectionTitle}><h3>Appareil utilisé</h3></div>
             <div className={styles.devicesGrid}>
@@ -94,7 +101,6 @@ function WashmePreview({ formData, onReset }) {
             </div>
           </section>
           
-          {/* === Section 7 : Prix --- */}
           <section className={styles.pricingSection}>
              <div className={styles.sectionTitle}></div>
             <table className={styles.priceTable}>
@@ -107,9 +113,9 @@ function WashmePreview({ formData, onReset }) {
           </section>
         </main>
         
-        {/* === Section 8 : Footer === */}
         <footer className={styles.footer}>
-          <img src="/LOGO_LIGNE-ME_GROUP-02.png" alt="ME Group Logo" />
+          {/* Logo dynamique via les props */}
+          <img src={footerLogo} alt="ME Group Logo" />
         </footer>
       </div>
     </div>
@@ -117,3 +123,4 @@ function WashmePreview({ formData, onReset }) {
 }
 
 export default WashmePreview;
+  

@@ -1,9 +1,9 @@
-// Fichier: src/components/PhotomatonPreview/PhotomatonPreview.jsx (Nouvelle Vision Design)
+// Fichier: src/components/PhotomatonPreview/PhotomatonPreview.jsx
 
 import styles from './PhotomatonPreview.module.css';
 import html2pdf from 'html2pdf.js';
 
-// --- Définitions des icônes (SVG) pour les garder dans un seul fichier ---
+// --- Définitions des icônes (SVG) ---
 const LocationIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className={styles.icon}><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>
 );
@@ -14,7 +14,8 @@ const PhoneIcon = () => (
 
 const PHOTOMATON_SERVICES = ["Cabine photo d'identité", "Borne numérique", "Photocopieur"];
 
-function PhotomatonPreview({ formData, onReset }) {
+// Le composant accepte maintenant les props pour les logos
+function PhotomatonPreview({ formData, onReset, headerLogo, footerLogo }) {
   const prixTTC = parseFloat(formData.prixTTC || 0);
   const prixHT = prixTTC / 1.2;
   const tva = prixTTC - prixHT;
@@ -24,26 +25,18 @@ function PhotomatonPreview({ formData, onReset }) {
     const element = document.getElementById('facture-photomaton');
     const nomFichier = `Photomaton_${formData.nomClient.replace(/ /g, '_')}_${formData.dateTransaction}.pdf`;
 
-    // 1. On mesure la largeur et la hauteur de l'élément en pixels
-    const elementWidth = element.offsetWidth;
-    const elementHeight = element.offsetHeight;
-    
-    // 2. On convertit les pixels en pouces (l'unité utilisée par la bibliothèque)
-    // On utilise un ratio standard et on ajoute une petite marge pour être sûr que rien ne soit coupé
-    const pdfWidth = elementWidth / 96 + 0.2;
-    const pdfHeight = elementHeight / 96 + 0.2;
-
+    // Options PDF améliorées pour une meilleure qualité
     const opt = {
-      margin: 0, // La marge du document PDF lui-même est à zéro
-      filename: nomFichier,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      // 3. On utilise notre format de page personnalisé
-      jsPDF: {
-        unit: 'in',
-        format: [pdfWidth, pdfHeight], // format: [largeur, hauteur]
-        orientation: 'portrait'
-      }
+      margin:       0,
+      filename:     nomFichier,
+      image:        { type: 'jpeg', quality: 1.0 }, // Qualité maximale
+      html2canvas:  { 
+        scale: 4, // Échelle augmentée pour une meilleure résolution
+        dpi: 300, // Haute résolution
+        letterRendering: true,
+        useCORS: true 
+      },
+      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
 
     html2pdf().from(element).set(opt).save();
@@ -57,12 +50,11 @@ function PhotomatonPreview({ formData, onReset }) {
       </div>
 
       <div id="facture-photomaton" className={styles.previewContainer}>
-        {/* === Section 1 : En-tête === */}
         <header className={styles.header}>
-          <img src="/LOGO_PHOTOMATON_MEGROUP_CMJN.png" alt="Photomaton Logo" className={styles.logoHeader} />
+          {/* Logo dynamique via les props */}
+          <img src={headerLogo} alt="Photomaton Logo" className={styles.logoHeader} />
         </header>
 
-        {/* === Section 2 : Informations de contact === */}
         <section className={styles.contactSection}>
           <div className={styles.contactBlock}>
             <LocationIcon />
@@ -75,31 +67,27 @@ function PhotomatonPreview({ formData, onReset }) {
           <div className={styles.contactBlock}>
             <PhoneIcon />
             <div className={styles.contactText}>
-              <strong>Service Client Photomaton</strong>
+              <strong>Service Client Photomaton®</strong>
               <span>09.70.82.32.46</span>
             </div>
           </div>
         </section>
 
-        {/* === Section 3 : Détails client et lieu/date === */}
         <section className={styles.customerSection}>
           <div className={styles.customerName}>{formData.nomClient}</div>
           <div className={styles.locationDate}>Fait à Paris le : {today}</div>
         </section>
 
-        {/* === Section 4 : Titre === */}
         <div className={styles.titleBar}>
           <h2>Preuve d'achat</h2>
         </div>
         
         <main className={styles.body}>
-          {/* === Section 5 : Informations de transaction === */}
           <section className={styles.transactionDetails}>
             <p><strong>Date de la transaction :</strong> {new Date(formData.dateTransaction).toLocaleDateString('fr-FR')}</p>
             <p><strong>Mode de paiement :</strong> {formData.paiement}</p>
           </section>
 
-          {/* === Section 6 : Appareil utilisé === */}
           <section className={styles.devicesSection}>
             <div className={styles.sectionTitle}>
               <h3>Appareil utilisé</h3>
@@ -114,9 +102,8 @@ function PhotomatonPreview({ formData, onReset }) {
             </div>
           </section>
           
-          {/* === Section 7 : Prix --- */}
           <section className={styles.pricingSection}>
-             <div className={styles.sectionTitle}></div> {/* Ligne fine de séparation */}
+             <div className={styles.sectionTitle}></div>
             <table className={styles.priceTable}>
               <tbody>
                 <tr><td className={styles.label}>PRIX H.T. :</td><td className={styles.value}>{prixHT.toFixed(2)} €</td></tr>
@@ -127,9 +114,9 @@ function PhotomatonPreview({ formData, onReset }) {
           </section>
         </main>
         
-        {/* === Section 8 : Footer === */}
         <footer className={styles.footer}>
-          <img src="/LOGO_LIGNE-ME_GROUP-02.png" alt="ME Group Logo" />
+          {/* Logo dynamique via les props */}
+          <img src={footerLogo} alt="ME Group Logo" />
         </footer>
       </div>
     </div>
