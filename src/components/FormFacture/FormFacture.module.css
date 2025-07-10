@@ -222,15 +222,21 @@
 
 /* Custom Checkboxes */
 .checkboxGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
 }
 
+/* CORRECTION PRINCIPALE :
+On utilise Flexbox pour aligner la case à cocher et le texte horizontalement.
+*/
 .checkboxLabel {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  /* ▼▼▼ LIGNES ESSENTIELLES POUR L'ALIGNEMENT ▼▼▼ */
+  display: flex !important;       /* On utilise Flexbox et on force la priorité */
+  align-items: center !important; /* On centre les éléments verticalement */
+  /* ▲▲▲ FIN DES LIGNES ESSENTIELLES ▲▲▲ */
+  
+  gap: 0.75rem;             /* Espace entre la case et le texte */
   padding: 0.8rem 1rem;
   border: 1px solid var(--color-border);
   border-radius: 8px;
@@ -240,42 +246,42 @@
 }
 
 .checkboxLabel:hover {
-    border-color: var(--color-primary);
-}
-
-.checkboxLabel input {
-  display: none;
-}
-
-.checkboxCustom {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--color-border);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition-speed) ease;
-  flex-shrink: 0;
-}
-
-.checkboxCustom::after {
-  content: '✔';
-  color: white;
-  font-size: 14px;
-  opacity: 0;
-  transform: scale(0.5);
-  transition: all var(--transition-speed) ease;
-}
-
-.checkboxLabel input:checked + .checkboxCustom {
-  background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
 
+.checkboxLabel input {
+display: none;
+}
+
+.checkboxCustom {
+width: 20px;
+height: 20px;
+border: 2px solid var(--color-border);
+border-radius: 6px;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all var(--transition-speed) ease;
+flex-shrink: 0;
+}
+
+.checkboxCustom::after {
+content: '✔';
+color: white;
+font-size: 14px;
+opacity: 0;
+transform: scale(0.5);
+transition: all var(--transition-speed) ease;
+}
+
+.checkboxLabel input:checked + .checkboxCustom {
+background-color: var(--color-primary);
+border-color: var(--color-primary);
+}
+
 .checkboxLabel input:checked + .checkboxCustom::after {
-  opacity: 1;
-  transform: scale(1);
+opacity: 1;
+transform: scale(1);
 }
 
 /* Submit Button */
