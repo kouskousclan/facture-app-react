@@ -32,6 +32,7 @@ function FormFacture({ onFormSubmit }) {
   });
 
   const [errors, setErrors] = useState({});
+  const [isPaymentOpen, setPaymentOpen] = useState(false); // État pour le sélecteur personnalisé
 
   const servicesActuels = formData.brand === 'WashME' ? WASHME_SERVICES : PHOTOMATON_SERVICES;
 
@@ -91,7 +92,6 @@ function FormFacture({ onFormSubmit }) {
       return;
     }
 
-    // Modification N°1 : Mettre en majuscule la première lettre du nom et du prénom
     const capitalize = (str) => str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
     const finalData = {
         ...formData,
@@ -142,12 +142,31 @@ function FormFacture({ onFormSubmit }) {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="paiement">Mode de paiement</label>
-          <div className={styles.selectWrapper}>
-            <select id="paiement" name="paiement" className={styles.select} onChange={handleChange} value={formData.paiement}>
-              <option>Carte bancaire</option>
-              <option>Espèces</option>
-            </select>
+          <label>Mode de paiement</label>
+          <div className={styles.customSelect}>
+            <div 
+              className={styles.selectDisplayed} 
+              onClick={() => setPaymentOpen(!isPaymentOpen)}
+              tabIndex="0" // Pour l'accessibilité
+            >
+              {formData.paiement}
+            </div>
+            {isPaymentOpen && (
+              <ul className={styles.selectOptions}>
+                {['Carte bancaire', 'Espèces'].map(option => (
+                  <li
+                    key={option}
+                    className={styles.selectOption}
+                    onClick={() => {
+                      setFormData(prevData => ({ ...prevData, paiement: option }));
+                      setPaymentOpen(false); // Ferme la liste après sélection
+                    }}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 

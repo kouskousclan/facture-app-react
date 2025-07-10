@@ -323,3 +323,64 @@ transform: scale(1);
         grid-template-columns: 1fr;
     }
 }
+/* Fichier : src/components/FormFacture/FormFacture.module.css */
+
+/* ... (ajoutez ce code à la fin de votre fichier) ... */
+
+/* Style pour le conteneur de notre sélecteur personnalisé */
+.customSelect {
+  position: relative; /* Nécessaire pour positionner la liste d'options */
+}
+
+/* Style de la boîte qui affiche la valeur sélectionnée (ressemble au <select>) */
+.selectDisplayed {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  user-select: none; /* Empêche la sélection de texte */
+  position: relative;
+}
+
+/* Flèche décorative, comme sur un vrai <select> */
+.selectDisplayed::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  color: var(--color-text-light);
+  font-size: 0.8rem;
+}
+
+/* Conteneur pour la liste des options */
+.selectOptions {
+  position: absolute;
+  top: calc(100% + 4px); /* Se place juste en dessous de la boîte */
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  list-style: none;
+  padding: 0.5rem;
+  margin: 0;
+  z-index: 10; /* S'assure que la liste est au-dessus des autres éléments */
+}
+
+/* Style pour chaque option individuelle */
+.selectOption {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ✨ C'EST LA MAGIE ✨ */
+/* Au survol, on utilise la couleur primaire définie dans le thème ! */
+.selectOption:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
