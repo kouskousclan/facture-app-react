@@ -74,7 +74,7 @@ function PhotomatonPreview({ formData, onReset, headerLogo, footerLogo }) {
         </section>
 
         <section className={styles.customerSection}>
-          <div className={styles.customerName}>{formData.nomClient}</div>
+          <div className={styles.customerName}>Nom du client : {formData.nomClient}</div>
           <div className={styles.locationDate}>Fait à Paris le : {today}</div>
         </section>
 

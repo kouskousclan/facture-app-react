@@ -23,15 +23,16 @@
     padding: 1.5rem 2.5rem;
 }
 .logoHeader {
-    height: 50px;
+    height: 60px;
 }
 
 /* --- Section 2: Contact --- */
 .contactSection {
-    background-color: #fff;
+    background-color: whitesmoke;
     padding: 1.5rem 2.5rem;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start; 
     border-bottom: 1px solid var(--border-color);
     font-size: 0.9rem;
 }
@@ -47,6 +48,7 @@
 .contactText strong {
     font-weight: 600;
     color: var(--text-dark);
+    margin-bottom: 4px
 }
 .contactText span {
     color: var(--text-light);
@@ -181,6 +183,6 @@
     text-align: left; /* Logo à gauche */
 }
 .footer img {
-    height: 30px;
+    height: 50px;
     opacity: 0.7;
 }
