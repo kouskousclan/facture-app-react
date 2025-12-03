@@ -2,6 +2,8 @@
 
 import styles from './PhotomatonPreview.module.css';
 import html2pdf from 'html2pdf.js';
+import { getBrandLocale, getLegalAddress } from '../../constants/brandConfig';
+import { formatCurrency, formatDate } from '../../utils/formatters';
 
 // --- Définitions des icônes (SVG) ---
 const LocationIcon = () => (
@@ -12,18 +14,20 @@ const PhoneIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className={styles.icon}><path d="M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.609-8.994l2.083-1.028-3.493-6.817-2.08 1.026c-8.488 4.199 2.164 24.609 10.64 20.542l3.044-1.503z"/></svg>
 );
 
-const PHOTOMATON_SERVICES = ["Cabine photo d'identité", "Borne numérique", "Photocopieur"];
-
-// Le composant accepte maintenant les props pour les logos
 function PhotomatonPreview({ formData, onReset, headerLogo, footerLogo }) {
-  const prixTTC = parseFloat(formData.prixTTC || 0);
+  const brandLocale = getBrandLocale('Photomaton', formData.country) ?? { services: [], phone: {} };
+  const legalAddress = getLegalAddress(formData.country);
+  const prixTTC = Number.parseFloat(formData.prixTTC || '0') || 0;
   const prixHT = prixTTC / 1.2;
   const tva = prixTTC - prixHT;
-  const today = new Date().toLocaleDateString('fr-FR');
+  const today = formatDate(new Date());
+  const customerName = formData.displayName || formData.nomClient || formData.raisonSociale || '-';
+  const showAddress = formData.addAddress && formData.addressLine1;
+  const brandName = 'Photomaton';
 
   const handleExportPDF = () => {
     const element = document.getElementById('facture-photomaton');
-    const nomFichier = `Photomaton_${formData.nomClient.replace(/ /g, '_')}_${formData.dateTransaction}.pdf`;
+    const nomFichier = `Photomaton_${(customerName || 'client').replace(/ /g, '_')}_${formData.dateTransaction}.pdf`;
 
     // Options PDF améliorées pour une meilleure qualité
     const opt = {
@@ -44,9 +48,9 @@ function PhotomatonPreview({ formData, onReset, headerLogo, footerLogo }) {
 
   return (
     <div>
-      <div style={{ maxWidth: '850px', margin: '2rem auto 1rem auto', display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
-        <button onClick={onReset} style={{ padding: '0.5rem 1rem', cursor: 'pointer', backgroundColor: '#6b7280', color: 'white', border: 'none', borderRadius: '6px' }}>Modifier</button>
-        <button onClick={handleExportPDF} style={{ padding: '0.5rem 1rem', cursor: 'pointer', backgroundColor: '#16a34a', color: 'white', border: 'none', borderRadius: '6px' }}>Exporter en PDF</button>
+      <div className={styles.actions}>
+        <button className={`${styles.button} ${styles.secondary}`} onClick={onReset}>Modifier</button>
+        <button className={`${styles.button} ${styles.primary}`} onClick={handleExportPDF}>Exporter en PDF</button>
       </div>
 
       <div id="facture-photomaton" className={styles.previewContainer}>
@@ -59,23 +63,34 @@ function PhotomatonPreview({ formData, onReset, headerLogo, footerLogo }) {
           <div className={styles.contactBlock}>
             <LocationIcon />
             <div className={styles.contactText}>
-              <strong>ME Group France</strong>
-              <span>8 rue Auber</span>
-              <span>75009 PARIS</span>
+              <strong>{legalAddress.name}</strong>
+              {legalAddress.lines.map(line => (
+                <span key={line}>{line}</span>
+              ))}
             </div>
           </div>
           <div className={styles.contactBlock}>
             <PhoneIcon />
             <div className={styles.contactText}>
-              <strong>Service Client Photomaton®</strong>
-              <span>09.70.82.32.46</span>
+              <strong>{brandLocale.phone?.label}</strong>
+              <span>{brandLocale.phone?.number}</span>
             </div>
           </div>
         </section>
 
         <section className={styles.customerSection}>
-          <div className={styles.customerName}>Nom du client : {formData.nomClient}</div>
-          <div className={styles.locationDate}>Fait à Paris le : {today}</div>
+          <div className={styles.customerBlock}>
+            <div className={styles.customerName}>Client : {customerName}</div>
+            {showAddress && (
+              <div className={styles.customerAddress}>
+                <span>{formData.addressLine1}</span>
+              </div>
+            )}
+            {formData.addSiret && formData.siret && (
+              <div className={styles.customerMeta}>SIRET : {formData.siret}</div>
+            )}
+          </div>
+          <div className={styles.locationDate}>Fait à {legalAddress.lines[legalAddress.lines.length - 1]} le : {today}</div>
         </section>
 
         <div className={styles.titleBar}>
@@ -84,7 +99,7 @@ function PhotomatonPreview({ formData, onReset, headerLogo, footerLogo }) {
         
         <main className={styles.body}>
           <section className={styles.transactionDetails}>
-            <p><strong>Date de la transaction :</strong> {new Date(formData.dateTransaction).toLocaleDateString('fr-FR')}</p>
+            <p><strong>Date de la transaction :</strong> {formatDate(formData.dateTransaction)}</p>
             <p><strong>Mode de paiement :</strong> {formData.paiement}</p>
           </section>
 
@@ -93,7 +108,7 @@ function PhotomatonPreview({ formData, onReset, headerLogo, footerLogo }) {
               <h3>Appareil utilisé</h3>
             </div>
             <div className={styles.devicesGrid}>
-              {PHOTOMATON_SERVICES.map(service => (
+              {brandLocale.services.map(service => (
                 <div key={service} className={styles.deviceItem}>
                   <span>{service}</span>
                   <div className={styles.checkbox}>{formData.appareils.includes(service) ? 'X' : ''}</div>
@@ -106,16 +121,19 @@ function PhotomatonPreview({ formData, onReset, headerLogo, footerLogo }) {
              <div className={styles.sectionTitle}></div>
             <table className={styles.priceTable}>
               <tbody>
-                <tr><td className={styles.label}>PRIX H.T. :</td><td className={styles.value}>{prixHT.toFixed(2)} €</td></tr>
-                <tr><td className={styles.label}>T.V.A. (20%) :</td><td className={styles.value}>{tva.toFixed(2)} €</td></tr>
-                <tr className={styles.totalRow}><td className={styles.label}>TOTAL T.T.C. :</td><td className={styles.value}>{prixTTC.toFixed(2)} €</td></tr>
+                <tr><td className={styles.label}>PRIX H.T. :</td><td className={styles.value}>{formatCurrency(prixHT)}</td></tr>
+                <tr><td className={styles.label}>T.V.A. (20%) :</td><td className={styles.value}>{formatCurrency(tva)}</td></tr>
+                <tr className={styles.totalRow}><td className={styles.label}>TOTAL T.T.C. :</td><td className={styles.value}>{formatCurrency(prixTTC)}</td></tr>
               </tbody>
             </table>
           </section>
         </main>
         
         <footer className={styles.footer}>
-          {/* Logo dynamique via les props */}
+          <div className={styles.footerContent}>
+            <span>© {brandName} Tous droits réservés.</span>
+            <span>{brandName} est une marque de ME GROUP</span>
+          </div>
           <img src={footerLogo} alt="ME Group Logo" />
         </footer>
       </div>

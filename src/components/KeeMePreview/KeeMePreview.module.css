@@ -1,8 +1,6 @@
-/* Fichier : src/components/PhotomatonPreview/PhotomatonPreview.module.css */
-
 .previewContainer {
-    --brand-orange: #E27F45;
-    --header-bg: #fff8ed;
+    --brand-color: #95478D;
+    --header-bg: #FCEBFA;
     --text-dark: #2d3748;
     --text-light: #718096;
     --border-color: #e2e8f0;
@@ -38,7 +36,7 @@
 }
 
 .button:focus-visible {
-    outline: 2px solid var(--brand-orange);
+    outline: 2px solid var(--brand-color);
     outline-offset: 2px;
 }
 
@@ -50,7 +48,7 @@
     background-color: #6b7280;
 }
 
-/* --- Section 1: En-tête --- */
+/* --- Header --- */
 .header {
     background-color: var(--header-bg);
     padding: 1.5rem 2.5rem;
@@ -59,13 +57,13 @@
     height: 60px;
 }
 
-/* --- Section 2: Contact --- */
+/* --- Contact --- */
 .contactSection {
     background-color: whitesmoke;
     padding: 1.5rem 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start; 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
     border-bottom: 1px solid var(--border-color);
     font-size: 0.9rem;
 }
@@ -90,7 +88,7 @@
     color: var(--text-light);
 }
 
-/* --- Section 3: Client --- */
+/* --- Client --- */
 .customerSection {
     background-color: #fff;
     padding: 1.5rem 2.5rem;
@@ -105,7 +103,7 @@
 }
 .customerName {
     font-size: 1.1rem;
-    font-weight: 600; /* semi-gras */
+    font-weight: 600;
 }
 .customerAddress {
     display: flex;
@@ -120,11 +118,12 @@
 .locationDate {
     font-size: 0.9rem;
     color: var(--text-light);
+    text-align: right;
 }
 
-/* --- Section 4: Titre --- */
+/* --- Title --- */
 .titleBar {
-    background-color: var(--brand-orange);
+    background-color: var(--band-color);
     color: white;
     text-align: center;
     padding: 0.8rem;
@@ -137,12 +136,10 @@
     letter-spacing: 2px;
 }
 
-/* --- Corps principal --- */
+/* --- Body --- */
 .body {
     padding: 2.5rem;
 }
-
-/* --- Section 5: Transaction --- */
 .transactionDetails {
     margin-bottom: 2.5rem;
     font-size: 1rem;
@@ -157,7 +154,6 @@
     width: 180px;
 }
 
-/* --- Section 6: Appareils --- */
 .sectionTitle {
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 0.5rem;
@@ -188,7 +184,7 @@
     height: 20px;
     border: 2px solid #a0aec0;
     border-radius: 4px;
-    color: var(--brand-orange);
+    color: var(--brand-color);
     font-size: 1.2rem;
     font-weight: bold;
     display: flex;
@@ -196,13 +192,13 @@
     justify-content: center;
 }
 
-/* --- Section 7: Prix --- */
+/* --- Pricing --- */
 .pricingSection {
     margin-top: 2.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color); /* Ligne de séparation */
+    border-top: 1px solid var(--border-color);
     display: flex;
-    justify-content: flex-end; /* Alignement à droite */
+    justify-content: flex-end;
 }
 .priceTable {
     width: 300px;
@@ -224,7 +220,7 @@
     border-top: 2px solid var(--text-dark);
 }
 
-/* --- Section 8: Footer --- */
+/* --- Footer --- */
 .footer {
     background-color: var(--header-bg);
     padding: 1.5rem 2.5rem;

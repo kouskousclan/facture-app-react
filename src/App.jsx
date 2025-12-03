@@ -4,12 +4,13 @@ import { useState } from 'react';
 import FormFacture from './components/FormFacture/FormFacture';
 import WashmePreview from './components/WashmePreview/WashmePreview';
 import PhotomatonPreview from './components/PhotomatonPreview/PhotomatonPreview';
+import KeeMePreview from './components/KeeMePreview/KeeMePreview';
 
 // Importation des logos pour les passer en props
 import washmeLogo from './assets/logos/1111.png';
 import photomatonLogo from './assets/logos/LOGO_PHOTOMATON_MEGROUP_CMJN.png';
 import meGroupLogo from './assets/logos/LOGO_LIGNE-ME_GROUP-02.png';
-
+import keeMeLogo from '/KeeMe.png';
 
 function App() {
   const [factureData, setFactureData] = useState(null);
@@ -39,7 +40,11 @@ function App() {
     if (factureData.brand === 'Photomaton') {
       return <PhotomatonPreview {...commonProps} headerLogo={photomatonLogo} />;
     }
-    
+
+    if (factureData.brand === 'KeeMe') {
+      return <KeeMePreview {...commonProps} headerLogo={keeMeLogo} />;
+    }
+
     return null;
   };
 

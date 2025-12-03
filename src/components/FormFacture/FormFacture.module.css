@@ -49,6 +49,10 @@
     --color-primary: #E27F45;
     --color-primary-light: #e99260;
 }
+.themeKeeMe {
+    --color-primary: #95478D;
+    --color-primary-light: #b869b1;
+}
 
 
 .formWrapper {
@@ -197,6 +201,25 @@
   box-shadow: var(--shadow-sm);
 }
 
+.inlineIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.35rem;
+}
+
+.checkboxLabelInline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.checkboxLabelInline input {
+  display: none;
+}
+
 /* Custom Select Dropdown */
 .selectWrapper {
     position: relative;
@@ -282,6 +305,27 @@ border-color: var(--color-primary);
 .checkboxLabel input:checked + .checkboxCustom::after {
 opacity: 1;
 transform: scale(1);
+}
+
+.checkboxLabelInline .checkboxCustom {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-speed) ease;
+}
+
+.checkboxLabelInline input:checked + .checkboxCustom {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.checkboxLabelInline input:checked + .checkboxCustom::after {
+  opacity: 1;
+  transform: scale(1);
 }
 
 /* Submit Button */
@@ -376,6 +420,11 @@ transform: scale(1);
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.selectOption:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 /* ✨ C'EST LA MAGIE ✨ */

@@ -21,6 +21,39 @@
   border: 1px solid var(--border-color);
 }
 
+.actions {
+  max-width: 850px;
+  margin: 2rem auto 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.button {
+  padding: 0.65rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--brand-color);
+  outline-offset: 2px;
+}
+
+.primary {
+  background-color: #16a34a;
+}
+
+.secondary {
+  background-color: #6b7280;
+}
+
 /* --- Section 1: En-tête --- */
 .header {
   background-color: var(--header-bg);
@@ -58,13 +91,13 @@
   padding: 1.5rem 2.5rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 /* Application de la graisse "DemiBold" */
-.customerName {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
+.customerBlock { display: flex; flex-direction: column; gap: 0.35rem; }
+.customerName { font-size: 1.1rem; font-weight: 600; }
+.customerAddress { display: flex; flex-direction: column; color: var(--text-light); }
+.customerMeta { font-size: 0.9rem; color: var(--text-dark); font-weight: 500; }
 .locationDate { font-size: 0.9rem; color: var(--text-light); }
 
 /* --- Section 4: Titre --- */
@@ -105,9 +138,6 @@
 /* Le total reste en "Bold" */
 .totalRow td { padding-top: 1rem; font-size: 1.2rem; font-weight: 700; border-top: 2px solid var(--text-dark); }
 
-.footer { background-color: whitesmoke; padding: 2rem 2.5rem; text-align: left; }
-.footer img {
-    height: 50px;
-    opacity: 0.7;
-    /* Plus besoin de filtre car le fond est clair */
-}
+.footer { background-color: whitesmoke; padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.footerContent { display: flex; justify-content: space-between; gap: 1.5rem; font-size: 0.9rem; color: var(--text-light); flex: 1; white-space: nowrap; }
+.footer img { height: 50px; opacity: 0.7; }

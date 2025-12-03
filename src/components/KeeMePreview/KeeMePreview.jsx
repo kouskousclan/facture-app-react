@@ -1,49 +1,52 @@
-// Fichier: src/components/WashmePreview/WashmePreview.jsx
+// Fichier: src/components/KeeMePreview/KeeMePreview.jsx
 
-import styles from './WashmePreview.module.css';
+import styles from './KeeMePreview.module.css';
 import html2pdf from 'html2pdf.js';
 import { getBrandLocale, getLegalAddress } from '../../constants/brandConfig';
 import { formatCurrency, formatDate } from '../../utils/formatters';
 
-// --- Icônes partagées ---
 const LocationIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className={styles.icon}><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>
-);
-const PhoneIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className={styles.icon}><path d="M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.609-8.994l2.083-1.028-3.493-6.817-2.08 1.026c-8.488 4.199 2.164 24.609 10.64 20.542l3.044-1.503z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className={styles.icon}><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg>
 );
 
-function WashmePreview({ formData, onReset, headerLogo, footerLogo }) {
-  const brandLocale = getBrandLocale('WashME', formData.country) ?? { services: [], phone: {} };
+const PhoneIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className={styles.icon}><path d="M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.609-8.994l2.083-1.028-3.493-6.817-2.08 1.026c-8.488 4.199 2.164 24.609 10.64 20.542l3.044-1.503z"/></svg>
+);
+
+const LinkIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className={styles.icon}><path d="M3.9 12a5 5 0 0 1 5-5h3.2v2H8.9a3 3 0 1 0 0 6h3.2v2H8.9a5 5 0 0 1-5-5Zm6-1h4.2a3 3 0 1 1 0 6h-3.2v2h3.2a5 5 0 0 0 0-10H9.9v2Z"/></svg>
+);
+
+function KeeMePreview({ formData, onReset, headerLogo, footerLogo }) {
+  const brandLocale = getBrandLocale('KeeMe', formData.country) ?? { services: [], phone: {}, colors: {} };
   const legalAddress = getLegalAddress(formData.country);
+  const headerBg = brandLocale.colors?.headerBg || '#FCEBFA';
+  const bandColor = brandLocale.colors?.band || '#95478D';
   const prixTTC = Number.parseFloat(formData.prixTTC || '0') || 0;
   const prixHT = prixTTC / 1.2;
   const tva = prixTTC - prixHT;
   const today = formatDate(new Date());
   const customerName = formData.displayName || formData.nomClient || formData.raisonSociale || '-';
   const showAddress = formData.addAddress && formData.addressLine1;
-  const brandName = 'WashME';
+  const brandName = 'Kee.ME';
 
   const handleExportPDF = () => {
-    const element = document.getElementById('facture-washme');
-    const nomFichier = `WashME_${(customerName || 'client').replace(/ /g, '_')}_${formData.dateTransaction}.pdf`;
-    
-    // Options PDF améliorées pour une meilleure qualité
+    const element = document.getElementById('facture-keeme');
+    const nomFichier = `KeeMe_${(customerName || 'client').replace(/ /g, '_')}_${formData.dateTransaction}.pdf`;
+
     const opt = {
-      margin:       0,
-      filename:     nomFichier,
-      image:        { type: 'jpeg', quality: 1.0 }, // Qualité maximale
-      html2canvas:  { 
-        scale: 4, // Échelle augmentée pour une meilleure résolution
-        dpi: 300, // Haute résolution
+      margin: 0,
+      filename: nomFichier,
+      image: { type: 'jpeg', quality: 1.0 },
+      html2canvas: {
+        scale: 4,
+        dpi: 300,
         letterRendering: true,
-        useCORS: true // Nécessaire si les images viennent d'un autre domaine
+        useCORS: true,
       },
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
     };
 
-    // La méthode de calcul de la taille est remplacée par un format standard (A4) 
-    // pour une meilleure compatibilité, en combinaison avec l'échelle.
     html2pdf().from(element).set(opt).save();
   };
 
@@ -54,14 +57,17 @@ function WashmePreview({ formData, onReset, headerLogo, footerLogo }) {
         <button className={`${styles.button} ${styles.primary}`} onClick={handleExportPDF}>Exporter en PDF</button>
       </div>
 
-      <div id="facture-washme" className={styles.previewContainer}>
+      <div
+        id="facture-keeme"
+        className={styles.previewContainer}
+        style={{ '--header-bg': headerBg, '--band-color': bandColor }}
+      >
         <header className={styles.header}>
-          {/* Logo dynamique via les props */}
-          <img src={headerLogo} alt="WashME Logo" className={styles.logoHeader} />
+          <img src={headerLogo} alt="KeeMe Logo" className={styles.logoHeader} />
         </header>
 
         <section className={styles.contactSection}>
-           <div className={styles.contactBlock}>
+          <div className={styles.contactBlock}>
             <LocationIcon />
             <div className={styles.contactText}>
               <strong>{legalAddress.name}</strong>
@@ -77,6 +83,15 @@ function WashmePreview({ formData, onReset, headerLogo, footerLogo }) {
               <span>{brandLocale.phone?.number}</span>
             </div>
           </div>
+          {brandLocale.website && (
+            <div className={styles.contactBlock}>
+              <LinkIcon />
+              <div className={styles.contactText}>
+                <strong>Site web</strong>
+                <span>{brandLocale.website}</span>
+              </div>
+            </div>
+          )}
         </section>
 
         <section className={styles.customerSection}>
@@ -97,7 +112,7 @@ function WashmePreview({ formData, onReset, headerLogo, footerLogo }) {
         <div className={styles.titleBar}>
           <h2>Preuve d'achat</h2>
         </div>
-        
+
         <main className={styles.body}>
           <section className={styles.transactionDetails}>
             <p><strong>Date de la transaction :</strong> {formatDate(formData.dateTransaction)}</p>
@@ -105,7 +120,9 @@ function WashmePreview({ formData, onReset, headerLogo, footerLogo }) {
           </section>
 
           <section className={styles.devicesSection}>
-            <div className={styles.sectionTitle}><h3>Appareil utilisé</h3></div>
+            <div className={styles.sectionTitle}>
+              <h3>Appareil utilisé</h3>
+            </div>
             <div className={styles.devicesGrid}>
               {brandLocale.services.map(service => (
                 <div key={service} className={styles.deviceItem}>
@@ -115,9 +132,9 @@ function WashmePreview({ formData, onReset, headerLogo, footerLogo }) {
               ))}
             </div>
           </section>
-          
+
           <section className={styles.pricingSection}>
-             <div className={styles.sectionTitle}></div>
+            <div className={styles.sectionTitle}></div>
             <table className={styles.priceTable}>
               <tbody>
                 <tr><td className={styles.label}>PRIX H.T. :</td><td className={styles.value}>{formatCurrency(prixHT)}</td></tr>
@@ -127,7 +144,7 @@ function WashmePreview({ formData, onReset, headerLogo, footerLogo }) {
             </table>
           </section>
         </main>
-        
+
         <footer className={styles.footer}>
           <div className={styles.footerContent}>
             <span>© {brandName} Tous droits réservés.</span>
@@ -140,5 +157,4 @@ function WashmePreview({ formData, onReset, headerLogo, footerLogo }) {
   );
 }
 
-export default WashmePreview;
-  
+export default KeeMePreview;
