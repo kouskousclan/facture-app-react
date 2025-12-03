@@ -31,15 +31,6 @@ const BrandIcon = ({ brand }) => (
   </span>
 );
 
-const KeyInlineIcon = () => (
-  <span className={styles.inlineIcon}>
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 14a6 6 0 1 1 11.83 1h3.67a1 1 0 0 1 0 2h-1.75l1 1.73a1 1 0 1 1-1.73 1l-1.45-2.5H13a1 1 0 0 1 0-2h1.86A6 6 0 0 1 3 14Z" />
-      <circle cx="7" cy="14" r="2" />
-    </svg>
-  </span>
-);
-
 const BRAND_OPTIONS = ['WashME', 'Photomaton', 'KeeMe'];
 const PAYMENT_OPTIONS = ['Carte bancaire', 'Espèces'];
 const CLIENT_TYPES = ['Particulier', 'Pro'];
@@ -198,7 +189,6 @@ function FormFacture({ onFormSubmit }) {
               <label key={option} className={`${styles.radioLabel} ${formData.brand === option ? styles.radioChecked : ''}`}>
                 <input type="radio" name="brand" value={option} checked={formData.brand === option} onChange={handleChange} />
                 {option}
-                {option === 'KeeMe' && <KeyInlineIcon />}
               </label>
             ))}
           </div>

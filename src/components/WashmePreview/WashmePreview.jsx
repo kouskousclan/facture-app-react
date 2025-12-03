@@ -39,6 +39,7 @@ function WashmePreview({ formData, onReset, headerLogo, footerLogo }) {
         letterRendering: true,
         useCORS: true // Nécessaire si les images viennent d'un autre domaine
       },
+      pagebreak:   { mode: ['avoid-all'] },
       jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
 

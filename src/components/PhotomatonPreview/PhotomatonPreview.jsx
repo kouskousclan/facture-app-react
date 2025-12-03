@@ -40,6 +40,7 @@ function PhotomatonPreview({ formData, onReset, headerLogo, footerLogo }) {
         letterRendering: true,
         useCORS: true 
       },
+      pagebreak:   { mode: ['avoid-all'] },
       jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
 
@@ -57,6 +58,7 @@ function PhotomatonPreview({ formData, onReset, headerLogo, footerLogo }) {
         <header className={styles.header}>
           {/* Logo dynamique via les props */}
           <img src={headerLogo} alt="Photomaton Logo" className={styles.logoHeader} />
+          <span className={styles.registered}>®</span>
         </header>
 
         <section className={styles.contactSection}>

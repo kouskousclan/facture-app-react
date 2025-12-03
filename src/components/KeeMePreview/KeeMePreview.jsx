@@ -13,10 +13,6 @@ const PhoneIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className={styles.icon}><path d="M20 22.621l-3.521-6.795c-.008.004-1.974.97-2.064 1.011-2.24 1.086-6.799-7.82-4.609-8.994l2.083-1.028-3.493-6.817-2.08 1.026c-8.488 4.199 2.164 24.609 10.64 20.542l3.044-1.503z"/></svg>
 );
 
-const LinkIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className={styles.icon}><path d="M3.9 12a5 5 0 0 1 5-5h3.2v2H8.9a3 3 0 1 0 0 6h3.2v2H8.9a5 5 0 0 1-5-5Zm6-1h4.2a3 3 0 1 1 0 6h-3.2v2h3.2a5 5 0 0 0 0-10H9.9v2Z"/></svg>
-);
-
 function KeeMePreview({ formData, onReset, headerLogo, footerLogo }) {
   const brandLocale = getBrandLocale('KeeMe', formData.country) ?? { services: [], phone: {}, colors: {} };
   const legalAddress = getLegalAddress(formData.country);
@@ -44,6 +40,7 @@ function KeeMePreview({ formData, onReset, headerLogo, footerLogo }) {
         letterRendering: true,
         useCORS: true,
       },
+      pagebreak: { mode: ['avoid-all'] },
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
     };
 
@@ -76,22 +73,13 @@ function KeeMePreview({ formData, onReset, headerLogo, footerLogo }) {
               ))}
             </div>
           </div>
-          <div className={styles.contactBlock}>
+          <div className={`${styles.contactBlock} ${styles.contactRight}`}>
             <PhoneIcon />
             <div className={styles.contactText}>
               <strong>{brandLocale.phone?.label}</strong>
               <span>{brandLocale.phone?.number}</span>
             </div>
           </div>
-          {brandLocale.website && (
-            <div className={styles.contactBlock}>
-              <LinkIcon />
-              <div className={styles.contactText}>
-                <strong>Site web</strong>
-                <span>{brandLocale.website}</span>
-              </div>
-            </div>
-          )}
         </section>
 
         <section className={styles.customerSection}>
@@ -106,7 +94,7 @@ function KeeMePreview({ formData, onReset, headerLogo, footerLogo }) {
               <div className={styles.customerMeta}>SIRET : {formData.siret}</div>
             )}
           </div>
-          <div className={styles.locationDate}>Fait à {legalAddress.lines[legalAddress.lines.length - 1]} le : {today}</div>
+          <div className={styles.locationDate}>Fait à Paris le : {today}</div>
         </section>
 
         <div className={styles.titleBar}>
@@ -121,7 +109,7 @@ function KeeMePreview({ formData, onReset, headerLogo, footerLogo }) {
 
           <section className={styles.devicesSection}>
             <div className={styles.sectionTitle}>
-              <h3>Appareil utilisé</h3>
+              <h3>Produit</h3>
             </div>
             <div className={styles.devicesGrid}>
               {brandLocale.services.map(service => (

@@ -1,3 +1,10 @@
+@page {
+    margin: 0;
+}
+:global(body) {
+    margin: 0;
+}
+
 /* Fichier : src/components/PhotomatonPreview/PhotomatonPreview.module.css */
 
 .previewContainer {
@@ -11,10 +18,17 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: var(--text-dark);
     background-color: var(--card-bg);
-    max-width: 800px;
-    margin: 0.5rem auto;
+    width: 210mm;
+    height: 285mm;
+    max-width: 210mm;
+    max-height: 285mm;
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow: hidden;
     box-shadow: var(--card-shadow);
     border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
 }
 
 .actions {
@@ -53,16 +67,25 @@
 /* --- Section 1: En-tête --- */
 .header {
     background-color: var(--header-bg);
-    padding: 1.5rem 2.5rem;
+    padding: 1.3rem 2rem;
+    position: relative;
 }
 .logoHeader {
     height: 60px;
+}
+.registered {
+    position: absolute;
+    right: 2.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    font-weight: 700;
 }
 
 /* --- Section 2: Contact --- */
 .contactSection {
     background-color: whitesmoke;
-    padding: 1.5rem 2.5rem;
+    padding: 1.1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-start; 
@@ -93,7 +116,7 @@
 /* --- Section 3: Client --- */
 .customerSection {
     background-color: #fff;
-    padding: 1.5rem 2.5rem;
+    padding: 1.1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -127,7 +150,7 @@
     background-color: var(--brand-orange);
     color: white;
     text-align: center;
-    padding: 0.8rem;
+    padding: 0.75rem;
 }
 .titleBar h2 {
     margin: 0;
@@ -139,12 +162,16 @@
 
 /* --- Corps principal --- */
 .body {
-    padding: 2.5rem;
+    padding: 1.4rem 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
 }
 
 /* --- Section 5: Transaction --- */
 .transactionDetails {
-    margin-bottom: 2.5rem;
+    margin-bottom: 0.8rem;
     font-size: 1rem;
 }
 .transactionDetails p {
@@ -161,7 +188,7 @@
 .sectionTitle {
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 .sectionTitle h3 {
     margin: 0;
@@ -170,13 +197,14 @@
     color: var(--text-light);
     letter-spacing: 1px;
 }
+.devicesSection { margin-top: 2.2rem; }
 .devicesGrid {
-    padding: 1.5rem;
+    padding: 1rem;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 0.8rem;
 }
 .deviceItem {
     display: flex;
@@ -198,8 +226,8 @@
 
 /* --- Section 7: Prix --- */
 .pricingSection {
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
+    margin-top: auto;
+    padding-top: 0.9rem;
     border-top: 1px solid var(--border-color); /* Ligne de séparation */
     display: flex;
     justify-content: flex-end; /* Alignement à droite */
@@ -228,10 +256,11 @@
 .footer {
     position: relative;
     background-color: var(--header-bg);
-    padding: 2.25rem 2.5rem 2.75rem;
+    padding: 1.4rem 2rem 1.6rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: auto;
 }
 .footerLogo {
     height: 50px;
@@ -240,9 +269,16 @@
 .footerLeft,
 .footerRight {
     position: absolute;
-    bottom: 0.6rem;
+    bottom: 0.55rem;
     font-size: 0.8rem;
     color: var(--text-light);
 }
 .footerLeft { left: 1.5rem; }
 .footerRight { right: 1.5rem; text-align: right; }
+
+@media print {
+    .previewContainer {
+        transform: scale(0.95);
+        transform-origin: top center;
+    }
+}
