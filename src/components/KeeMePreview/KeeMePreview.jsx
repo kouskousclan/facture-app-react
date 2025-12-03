@@ -146,11 +146,9 @@ function KeeMePreview({ formData, onReset, headerLogo, footerLogo }) {
         </main>
 
         <footer className={styles.footer}>
-          <div className={styles.footerContent}>
-            <span>© {brandName} Tous droits réservés.</span>
-            <span>{brandName} est une marque de ME GROUP</span>
-          </div>
-          <img src={footerLogo} alt="ME Group Logo" />
+          <span className={styles.footerLeft}>© {brandName} Tous droits réservés.</span>
+          <img src={footerLogo} alt="ME Group Logo" className={styles.footerLogo} />
+          <span className={styles.footerRight}>{brandName} est une marque de ME GROUP</span>
         </footer>
       </div>
     </div>

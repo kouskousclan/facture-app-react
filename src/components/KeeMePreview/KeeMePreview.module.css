@@ -222,23 +222,23 @@
 
 /* --- Footer --- */
 .footer {
+    position: relative;
     background-color: var(--header-bg);
-    padding: 1.5rem 2.5rem;
+    padding: 2.25rem 2.5rem 2.75rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    justify-content: center;
 }
-.footerContent {
-    display: flex;
-    justify-content: space-between;
-    gap: 1.5rem;
-    font-size: 0.9rem;
-    color: var(--text-light);
-    flex: 1;
-    white-space: nowrap;
-}
-.footer img {
+.footerLogo {
     height: 50px;
     opacity: 0.7;
 }
+.footerLeft,
+.footerRight {
+    position: absolute;
+    bottom: 0.6rem;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+.footerLeft { left: 1.5rem; }
+.footerRight { right: 1.5rem; text-align: right; }
